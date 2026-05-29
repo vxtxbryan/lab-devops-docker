@@ -1,0 +1,26 @@
+services:
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx-server
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/usr/share/nginx/html
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-server
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: empresa
+    ports:
+      - "3306:3306"
+
+  backend:
+    build: ./backend
+    container_name: node-backend
+    ports:
+    - "3000:3000"
+    depends_on:
+    - mysql
